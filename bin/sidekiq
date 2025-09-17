@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Default concurrency can be overridden by env SIDEKIQ_CONCURRENCY
+: "${SIDEKIQ_CONCURRENCY:=5}"
+
+exec bundle exec sidekiq -e ${RAILS_ENV:-production} -c "$SIDEKIQ_CONCURRENCY" -r ./config/environment.rb

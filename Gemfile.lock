@@ -218,6 +218,8 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.18.10-x64-mingw-ucrt)
       racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-gnu)
+      racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     parallel (1.27.0)
@@ -225,6 +227,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.6.2-x64-mingw-ucrt)
+    pg (1.6.2-x86_64-linux)
     phonelib (0.10.12)
     pp (0.6.2)
       prettyprint
@@ -380,6 +383,7 @@ GEM
     stringio (3.1.7)
     thor (1.4.0)
     thruster (0.1.15)
+    thruster (0.1.15-x86_64-linux)
     timeout (0.4.3)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
@@ -416,6 +420,7 @@ GEM
 
 PLATFORMS
   x64-mingw-ucrt
+  x86_64-linux
 
 DEPENDENCIES
   aws-sdk-s3 (~> 1.149)
@@ -449,6 +454,9 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+
+RUBY VERSION
+   ruby 3.4.5p51
 
 BUNDLED WITH
    2.6.9
