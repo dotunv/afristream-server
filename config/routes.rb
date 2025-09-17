@@ -13,11 +13,16 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  # Swagger UI / OpenAPI docs
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
+
   # ===== AfriStream API =====
   namespace :auth do
     post "register", to: "users#register"
     post "login", to: "users#login"
     delete "logout", to: "users#logout"
+    get "whoami", to: "users#whoami"
   end
 
   namespace :creator do
@@ -37,4 +42,10 @@ Rails.application.routes.draw do
 
   resources :subtitles, only: [:show] # GET /subtitles/:id?lang=fr
   resources :licenses, only: [:create, :show]
+
+  namespace :meta do
+    get "countries", to: "countries#index"
+    get "countries_with_codes", to: "countries#with_codes"
+    get "phone_mask/:country", to: "countries#phone_mask"
+  end
 end

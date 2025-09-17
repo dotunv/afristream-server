@@ -1,0 +1,205 @@
+openapi: 3.0.3
+info:
+  title: AfriStream API
+  version: v1
+  description: Mobile-first content platform API (auth, creator upload, purchases, royalties, subtitles, licenses)
+servers:
+  - url: http://localhost:3000
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user (email or phone)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                role:
+                  type: string
+                  enum: [fan, creator, admin]
+                phone_number:
+                  type: string
+                phone_country:
+                  type: string
+      responses:
+        '201':
+          description: Created
+        '422':
+          description: Validation error
+  /auth/login:
+    post:
+      summary: Login with email or phone (JWT sent in Authorization header)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                phone:
+                  type: string
+                phone_country:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+  /auth/logout:
+    delete:
+      summary: Logout (revokes JWT)
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No content
+  /creator/upload:
+    post:
+      summary: Upload new content (creator/admin)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                price_cents:
+                  type: integer
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Forbidden
+  /fan/content:
+    get:
+      summary: List available content (placeholder)
+      responses:
+        '200':
+          description: OK
+  /fan/purchase/{id}:
+    post:
+      summary: Purchase content and issue license
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                device_id:
+                  type: string
+      responses:
+        '201':
+          description: Created
+        '404':
+          description: Not found
+  /fan/library:
+    get:
+      summary: List purchased content for current user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /subtitles/{id}:
+    get:
+      summary: Get subtitles for content, auto-select language
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: lang
+          required: false
+          schema:
+            type: string
+            description: Two-letter language code (e.g., 'en', 'fr')
+      responses:
+        '302':
+          description: Redirect to subtitle URL
+        '404':
+          description: Not found
+  /licenses:
+    post:
+      summary: Issue/refresh a license for a purchased content
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content_id:
+                  type: integer
+                device_id:
+                  type: string
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Forbidden
+  /licenses/{id}:
+    get:
+      summary: Get a license by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+  /admin/royalties:
+    get:
+      summary: Royalties summary (admin only)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+        '403':
+          description: Forbidden
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

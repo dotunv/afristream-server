@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "AfriStream API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for AfriStream backend (auth, creator upload, purchases, royalties, subtitles, licenses)."
+  },
+  "item": [
+    {
+      "name": "Auth - Register (email or phone)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": { "raw": "http://localhost:3000/auth/register", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["auth", "register"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"creator@example.com\",\n  \"password\": \"secret123\",\n  \"password_confirmation\": \"secret123\",\n  \"role\": \"creator\",\n  \"phone_number\": \"+2348012345678\",\n  \"phone_country\": \"NG\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Login (email)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "url": { "raw": "http://localhost:3000/auth/login", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["auth", "login"] },
+        "body": { "mode": "raw", "raw": "{ \n  \"email\": \"creator@example.com\",\n  \"password\": \"secret123\"\n}" }
+      }
+    },
+    {
+      "name": "Auth - Login (phone)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "url": { "raw": "http://localhost:3000/auth/login", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["auth", "login"] },
+        "body": { "mode": "raw", "raw": "{ \n  \"phone\": \"+2348012345678\",\n  \"password\": \"secret123\"\n}" }
+      }
+    },
+    {
+      "name": "Auth - Logout",
+      "request": {
+        "method": "DELETE",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "url": { "raw": "http://localhost:3000/auth/logout", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["auth", "logout"] }
+      }
+    },
+    {
+      "name": "Creator - Upload",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "url": { "raw": "http://localhost:3000/creator/upload", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["creator", "upload"] },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "title", "value": "Sample Movie", "type": "text" },
+            { "key": "description", "value": "Short clip", "type": "text" },
+            { "key": "price_cents", "value": "500", "type": "text" },
+            { "key": "file", "type": "file", "src": [] }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fan - Purchase",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" } ],
+        "url": { "raw": "http://localhost:3000/fan/purchase/{{content_id}}", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["fan", "purchase", "{{content_id}}"] },
+        "body": { "mode": "raw", "raw": "{ \n  \"device_id\": \"web\"\n}" }
+      }
+    },
+    {
+      "name": "Fan - Library",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "url": { "raw": "http://localhost:3000/fan/library", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["fan", "library"] }
+      }
+    },
+    {
+      "name": "Subtitles - Show",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "http://localhost:3000/subtitles/{{content_id}}?lang=fr", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["subtitles", "{{content_id}}"], "query": [ { "key": "lang", "value": "fr" } ] }
+      }
+    },
+    {
+      "name": "License - Create/Refresh",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" } ],
+        "url": { "raw": "http://localhost:3000/licenses", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["licenses"] },
+        "body": { "mode": "raw", "raw": "{ \n  \"content_id\": {{content_id}},\n  \"device_id\": \"web\"\n}" }
+      }
+    },
+    {
+      "name": "Admin - Royalties",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{jwt}}" } ],
+        "url": { "raw": "http://localhost:3000/admin/royalties", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["admin", "royalties"] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "jwt", "value": "" },
+    { "key": "content_id", "value": "1" }
+  ]
+}

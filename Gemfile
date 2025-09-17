@@ -55,6 +55,14 @@ gem "rack-cors"
 # S3-compatible SDK for Cloudflare R2 Active Storage
 gem "aws-sdk-s3", "~> 1.149"
 
+# API docs and Swagger UI
+gem "rswag-api"
+gem "rswag-ui"
+gem "rswag-specs"
+
+# International phone parsing/validation
+gem "phonelib"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -67,6 +75,9 @@ group :development, :test do
 
   # Load environment variables from .env in development/test
   gem "dotenv-rails"
+
+  # RSpec for request specs used by rswag-specs
+  gem "rspec-rails"
 end
 
 group :development do
