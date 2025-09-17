@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  price_cents: 1
+  subtitle_languages: 
+  watermark_applied: false
+  encrypted: false
+  cek_ciphertext: MyText
+  creator_id: 
+
+two:
+  title: MyString
+  description: MyText
+  price_cents: 1
+  subtitle_languages: 
+  watermark_applied: false
+  encrypted: false
+  cek_ciphertext: MyText
+  creator_id: 

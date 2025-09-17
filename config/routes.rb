@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,4 +12,29 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # ===== AfriStream API =====
+  namespace :auth do
+    post "register", to: "users#register"
+    post "login", to: "users#login"
+    delete "logout", to: "users#logout"
+  end
+
+  namespace :creator do
+    post "upload", to: "contents#create"
+    get "dashboard", to: "contents#dashboard"
+  end
+
+  namespace :fan do
+    get "content", to: "contents#index"
+    post "purchase/:id", to: "transactions#create"
+    get "library", to: "transactions#library"
+  end
+
+  namespace :admin do
+    get "royalties", to: "royalties#index"
+  end
+
+  resources :subtitles, only: [:show] # GET /subtitles/:id?lang=fr
+  resources :licenses, only: [:create, :show]
 end
