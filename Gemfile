@@ -55,7 +55,7 @@ gem "streamio-ffmpeg"
 gem "rack-cors"
 
 # S3-compatible SDK for Cloudflare R2 Active Storage
-gem "aws-sdk-s3", "~> 1.149"
+gem "aws-sdk-s3", "~> 1.199"
 
 # API docs and Swagger UI
 gem "rswag-api"
